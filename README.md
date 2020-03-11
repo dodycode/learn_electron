@@ -1,5 +1,5 @@
-# Task One
-Learn to create first hello world electron projects.
+# Task Two
+Learn to create sub window in electron project.
 
 ### Installation
 
