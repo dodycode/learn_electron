@@ -1,0 +1,14 @@
+{
+  "name": "electron_pv",
+  "version": "1.0.0",
+  "description": "pemrograman visual's task",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "dodycode",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^8.1.1"
+  }
+}
