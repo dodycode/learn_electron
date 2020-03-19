@@ -1,8 +1,8 @@
 # Task Four
-Preparing DOM for rendering data in list.html
+Preparing DOM for main window of app in main.html
 
 
-![List Window](https://i.imgur.com/RBxckhV.png)
+![Main Window](https://i.imgur.com/Oh7XgfT.png)
 ### Installation
 
 This project requires [Node.js](https://nodejs.org/) v10+ to run.

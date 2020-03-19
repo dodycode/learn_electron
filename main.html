@@ -1,52 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Aplikasi Dokter</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+	<title>Today Appointments</title>
+	<link rel="stylesheet" type="text/css" href="lato.css">
 	<style type="text/css">
-		html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200;
-            height: 100vh;
-            margin: 0;
-        }
+		body{
+			margin:0;
+			padding:0;
+			font-family: 'Lato', sans-serif;
+		}
 
-        .full-height {
-            height: 100vh;
-        }
+		*{
+			box-sizing: border-box;
+		}
 
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
+		#app{
+			display: flex;
+			flex-direction: column;
+		}
 
-        .position-ref {
-            position: relative;
-        }
+		.window-title{
+			margin: 40px auto;
+			font-size: 18px;
+			font-weight: 300;
+		}
 
-        .content {
-            text-align: center;
-        }
+		.container{
+			display: flex;
+			flex-wrap: wrap;
+			max-width: 630px;
+			margin: auto;
+			justify-content: space-evenly;
+		}
 
-        .title {
-            font-size: 44px;
-        }
+		.appointment{
+			padding: 20px;
+			background-color: #e9f3f5;
+			margin: 0 5px;
+			position: relative;
+		}
 
-        .m-b-md {
-            margin-bottom: 30px;
-        }
+		.appointment button{
+			position: absolute;
+			right: 10px;
+			bottom: 10px;
+		}
 	</style>
 </head>
 <body>
-	<div class="flex-center position-ref full-height">
-		<div class="content">
-            <div class="title m-b-md">
-                DODYCODE PROJECT
-            </div>
-        </div>
+	<div id="app">
+		<h1 class="window-title">Today Appointments</h1>
+		<div id="list" class="container"></div>
 	</div>
+	<script type="text/javascript">
+		const electron = require('electron');
+		const {ipcRenderer} = electron;
+		ipcRenderer.send('appointment:request:today');
+
+		ipcRenderer.on('appointment:request:today', (event, appointments) => {
+			const listDiv = document.getElementById('list');
+			appointments.forEach(appointment => {
+				let appointmentContainer = document.createElement('div');
+				appointmentContainer.classList.add('appointment');
+
+				let nameDOM = document.createElement('p');
+				nameDOM.innerHTML = `Nama: ${appointment.name}`;
+
+				let phoneDOM = document.createElement('p');
+				phoneDOM.innerHTML = `Phone Number: ${appointment.phone_number}`;
+
+				let dateDOM = document.createElement('p');
+				dateDOM.innerHTML = `Date: ${appointment.date}`;
+
+				let hourDOM = document.createElement('p');
+				hourDOM.innerHTML = `Hour: ${appointment.hour}`;
+
+				let symptonsDOM = document.createElement('p');
+				symptonsDOM.innerHTML = `Symptons: \n ${appointment.symptons}`;
+
+				let doneDOM = document.createElement('p');
+				doneDOM.innerHTML = `Status: ${appointment.done ? 'Done' : 'Not Done'}`;
+
+				let doneBtn = document.createElement('button');
+				doneBtn.innerHTML = 'Done';
+				doneBtn.disabled = appointment.done ? true : false;
+				doneBtn.onclick = () => done(appointment.id);
+
+				appointmentContainer.appendChild(nameDOM);
+				appointmentContainer.appendChild(phoneDOM);
+				appointmentContainer.appendChild(dateDOM);
+				appointmentContainer.appendChild(hourDOM);
+				appointmentContainer.appendChild(symptonsDOM);
+				appointmentContainer.appendChild(doneDOM);
+				appointmentContainer.appendChild(doneBtn);
+
+				listDiv.appendChild(appointmentContainer);
+			});
+		});
+
+		const done = (id) => {
+			ipcRenderer.send('appointment:done', id);
+		}
+	</script>
 </body>
 </html>

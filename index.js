@@ -50,6 +50,14 @@ ipcMain.on('appointment:request:list', event => {
 	console.log('Appointment Request List Here');
 });
 
+ipcMain.on('appointment:request:today', event => {
+	console.log('Appointment Request Today Here');
+});
+
+ipcMain.on('appointment:done', (event, id) => {
+	console.log('Appointment done here');
+});
+
 const listWindowCreator = () => {
 	listWindow = new BrowserWindow({
 		webPreferences: {
