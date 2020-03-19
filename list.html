@@ -2,8 +2,84 @@
 <html>
 <head>
 	<title>List Appointments</title>
+	<link rel="stylesheet" type="text/css" href="lato.css">
+	<style type="text/css">
+		body{
+			margin:0;
+			padding:0;
+			font-family: 'Lato', sans-serif;
+		}
+
+		*{
+			box-sizing: border-box;
+		}
+
+		#app{
+			display: flex;
+			flex-direction: column;
+		}
+
+		.window-title{
+			margin: 40px auto;
+			font-size: 18px;
+			font-weight: 300;
+		}
+
+		.container{
+			display: flex;
+			flex-wrap: wrap;
+			max-width: 550px;
+			margin: auto;
+			justify-content: space-evenly;
+		}
+
+		.appointment{
+			padding: 20px;
+			background-color: #e9f3f5;
+			margin: 0 5px;
+		}
+	</style>
 </head>
 <body>
-	List Appointments
+	<div id="app">
+		<h1 class="window-title">List Appointments</h1>
+		<div id="list" class="container"></div>
+	</div>
+	<script type="text/javascript">
+		const electron = require('electron');
+		const {ipcRenderer} = electron;
+		ipcRenderer.send('appointment:request:list');
+
+		ipcRenderer.on('appointment:request:list', (event, appointments) => {
+			const listDiv = document.getElementById('list');
+			appointments.forEach(appointment => {
+				let appointmentContainer = document.createElement('div');
+				appointmentContainer.classList.add('appointment');
+
+				let nameDOM = document.createElement('p');
+				nameDOM.innerHTML = `Nama: ${appointment.name}`;
+
+				let phoneDOM = document.createElement('p');
+				phoneDOM.innerHTML = `Phone Number: ${appointment.phone_number}`;
+
+				let dateDOM = document.createElement('p');
+				dateDOM.innerHTML = `Date: ${appointment.date}`;
+
+				let hourDOM = document.createElement('p');
+				hourDOM.innerHTML = `Hour: ${appointment.hour}`;
+
+				let symptonsDOM = document.createElement('p');
+				symptonsDOM.innerHTML = `Symptons: \n ${appointment.symptons}`;
+
+				appointmentContainer.appendChild(nameDOM);
+				appointmentContainer.appendChild(phoneDOM);
+				appointmentContainer.appendChild(dateDOM);
+				appointmentContainer.appendChild(hourDOM);
+				appointmentContainer.appendChild(symptonsDOM);
+
+				listDiv.appendChild(appointmentContainer);
+			});
+		})
+	</script>
 </body>
 </html>

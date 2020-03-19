@@ -44,15 +44,19 @@ const createWindowCreator = () => {
 
 ipcMain.on('appointment:create', (event, appointment) => {
 	console.log('(index.js) Current Appointments: '+appointment);
-})
+});
+
+ipcMain.on('appointment:request:list', event => {
+	console.log('Appointment Request List Here');
+});
 
 const listWindowCreator = () => {
 	listWindow = new BrowserWindow({
 		webPreferences: {
 			nodeIntegration: true
 		},
-		width: 600,
-		height: 400,
+		width: 604,
+		height: 430,
 		title: 'All Appointments'
 	});
 
