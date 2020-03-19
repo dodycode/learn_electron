@@ -2,8 +2,164 @@
 <html>
 <head>
 	<title>Create Appointments</title>
+	<link rel="stylesheet" type="text/css" href="lato.css">
+	<style type="text/css">
+		body{
+			margin:0;
+			padding:0;
+			font-family: 'Lato', sans-serif;
+		}
+
+		*{
+			box-sizing: border-box;
+		}
+
+		#app{
+			display: flex;
+			flex-direction: column;
+		}
+
+		.window-title{
+			margin: 20px auto;
+			font-size: 18px;
+			font-weight: 300;
+		}
+
+		#form{
+			position: relative;
+			height: 369px;
+		}
+
+		.form-container{
+			display: flex;
+			flex-wrap: wrap;
+			margin-top: 15px;
+			max-width: 450px;
+			margin: auto;
+		}
+
+		.form-group{
+			display: flex;
+			flex-direction: column;
+			margin: 10px;
+		}
+
+		.form-group label{
+			color: #696969;
+			font-weight: bold;
+			text-transform: uppercase;
+			margin-bottom: 5px;
+			font-size: 10px;
+		}
+
+		.form-control{
+			width: 100%;
+			padding: 10px 5px;
+			border: none;
+			background-color: #e9f3f5;
+		}
+
+		.grid{
+			flex: 1 0 auto;
+		}
+
+		.one-third{
+			flex: 0 0 33.333%;
+		}
+
+		.fullwidth{
+			flex: 0 0 100%;
+		}
+
+		.form-control:focus{
+			outline: none;
+		}
+
+		.bottom-buttons{
+			position: absolute;
+			left: 0;
+			bottom:0;
+			width: 100%;
+			height: 50px;
+			display: flex;
+			flex-direction: row;
+		}
+
+		.btn{
+			width: 50%;
+			height: 100%;
+			border: none;
+		}
+
+		.btn-cancel{
+			background-color: #333333;
+			color: white;
+			text-align: left;
+		}
+
+		.btn-success{
+			background-color: #2358fb;
+			color: white;
+			text-align: right;
+		}
+	</style>
 </head>
 <body>
-	Create Appointments
+	<div id="app">
+		<h1 class="window-title">Create a New Appointment</h1>
+		<form id="form">
+			<div class="form-container">
+				<div class="form-group grid">
+					<label>Name</label>
+					<input type="text" name="name" class="form-control" required />
+				</div>
+				<div class="form-group grid">
+					<label>Phone Number</label>
+					<input type="tel" name="phone_number" class="form-control" required />
+				</div>
+				<div class="form-group one-third">
+					<label>Date</label>
+					<input type="date" name="date" class="form-control" placeholder="YYYY-MM-DD" required />
+				</div>
+				<div class="form-group one-third">
+					<label>Hour</label>
+					<input type="time" name="hour" class="form-control" placeholder="hh:ss" required />
+				</div>
+				<div class="form-group grid">
+					<label>Symptons</label>
+					<textarea class="form-control" name="symptons" required rows="5"></textarea>
+				</div>
+			</div>
+			<div class="bottom-buttons">
+				<input type="reset" value="Cancel" class="btn btn-cancel" />
+				<input type="submit" value="Save" class="btn btn-success" />
+			</div>
+		</form>
+	</div>
+
+	<script type="text/javascript">;
+		const electron = require('electron');
+		const {
+			ipcRenderer
+		} = electron;
+		const form = document.getElementById('form');
+		const elements = {};
+
+		//for debugging
+		// const nodeConsole = require('console');
+		// const myConsole = new nodeConsole.Console(process.stdout, process.stderr);
+		// myConsole.log('test');
+
+		form.addEventListener('submit', event => {
+			event.preventDefault();
+
+			for (let i = 0; i < form.elements.length; i++) {
+				if(form.elements[i].type != 'submit')
+					elements[form.elements[i].name] = form.elements[i].value;
+					// myConsole.log('Current elements: '+elements[form.elements[i].name]);
+			}
+			ipcRenderer.send('appointment:create', elements);
+		});
+	</script>
 </body>
 </html>

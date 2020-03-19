@@ -32,8 +32,8 @@ const createWindowCreator = () => {
 		webPreferences: {
 			nodeIntegration: true
 		},
-		width: 600,
-		height: 400,
+		width: 504,
+		height: 430,
 		title: 'Create Appointments'
 	});
 
@@ -41,6 +41,10 @@ const createWindowCreator = () => {
 	createWindow.loadURL(`file://${__dirname}/create.html`);
 	createWindow.on('closed', () => {createWindow = null});
 };
+
+ipcMain.on('appointment:create', (event, appointment) => {
+	console.log('(index.js) Current Appointments: '+appointment);
+})
 
 const listWindowCreator = () => {
 	listWindow = new BrowserWindow({
