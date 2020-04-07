@@ -1,3 +1,4 @@
+const uuid = require('uuid-js');
 const electron = require('electron');
 
 const {
@@ -43,7 +44,8 @@ const createWindowCreator = () => {
 };
 
 ipcMain.on('appointment:create', (event, appointment) => {
-	console.log('(index.js) Current Appointments: '+appointment);
+	appointment.id = uuid.create().toString();
+	console.log('(index.js) Current Appointments: ',appointment);
 });
 
 ipcMain.on('appointment:request:list', event => {

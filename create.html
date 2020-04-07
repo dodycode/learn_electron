@@ -154,7 +154,7 @@
 			event.preventDefault();
 
 			for (let i = 0; i < form.elements.length; i++) {
-				if(form.elements[i].type != 'submit')
+				if(form.elements[i].type != 'submit' && form.elements[i].type != 'reset')
 					elements[form.elements[i].name] = form.elements[i].value;
 					// myConsole.log('Current elements: '+elements[form.elements[i].name]);
 			}

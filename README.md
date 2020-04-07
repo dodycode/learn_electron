@@ -1,8 +1,8 @@
-# Task Five
-Preparing DOM for main window of app in main.html
+# Task Six
+Adding uuid library for generate ID in data.
 
 
-![Main Window](https://i.imgur.com/Oh7XgfT.png)
+![Main Window](https://i.imgur.com/CmqPsxh.jpg)
 ### Installation
 
 This project requires [Node.js](https://nodejs.org/) v10+ to run.
