@@ -27,6 +27,27 @@ app.on('ready', () => {
 
 	const mainMenu = Menu.buildFromTemplate(menuTemplate);
 	Menu.setApplicationMenu(mainMenu);
+
+	ipcMain.on('appointment:create', (event, appointment) => {
+		appointment.id = uuid.create().toString();
+
+		allAppointments.push(appointment);
+		console.log('(index.js) Current Appointments: ',allAppointments);
+
+		createWindow.close();
+	});
+
+	ipcMain.on('appointment:request:list', event => {
+		listWindow.webContents.send('appointment:response:list', allAppointments);
+	});
+
+	ipcMain.on('appointment:request:today', event => {
+		console.log('Appointment Request Today Here');
+	});
+
+	ipcMain.on('appointment:done', (event, id) => {
+		console.log('Appointment done here');
+	});
 });
 
 const createWindowCreator = () => {
@@ -43,27 +64,6 @@ const createWindowCreator = () => {
 	createWindow.loadURL(`file://${__dirname}/create.html`);
 	createWindow.on('closed', () => {createWindow = null});
 };
-
-ipcMain.on('appointment:create', (event, appointment) => {
-	appointment.id = uuid.create().toString();
-
-	allAppointments.push(appointment);
-	console.log('(index.js) Current Appointments: ',allAppointments);
-
-	createWindow.close();
-});
-
-ipcMain.on('appointment:request:list', event => {
-	
-});
-
-ipcMain.on('appointment:request:today', event => {
-	console.log('Appointment Request Today Here');
-});
-
-ipcMain.on('appointment:done', (event, id) => {
-	console.log('Appointment done here');
-});
 
 const listWindowCreator = () => {
 	listWindow = new BrowserWindow({

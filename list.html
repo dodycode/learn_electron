@@ -50,7 +50,7 @@
 		const {ipcRenderer} = electron;
 		ipcRenderer.send('appointment:request:list');
 
-		ipcRenderer.on('appointment:request:list', (event, appointments) => {
+		ipcRenderer.on('appointment:response:list', (event, appointments) => {
 			const listDiv = document.getElementById('list');
 			appointments.forEach(appointment => {
 				let appointmentContainer = document.createElement('div');
