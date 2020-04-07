@@ -9,6 +9,7 @@ const {
 } = electron;
 
 let mainWindow, createWindow, listWindow;
+let allAppointments = [];
 
 app.on('ready', () => {
 	mainWindow = new BrowserWindow({
@@ -45,11 +46,15 @@ const createWindowCreator = () => {
 
 ipcMain.on('appointment:create', (event, appointment) => {
 	appointment.id = uuid.create().toString();
-	console.log('(index.js) Current Appointments: ',appointment);
+
+	allAppointments.push(appointment);
+	console.log('(index.js) Current Appointments: ',allAppointments);
+
+	createWindow.close();
 });
 
 ipcMain.on('appointment:request:list', event => {
-	console.log('Appointment Request List Here');
+	
 });
 
 ipcMain.on('appointment:request:today', event => {
