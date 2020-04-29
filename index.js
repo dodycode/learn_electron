@@ -48,7 +48,13 @@ app.on('ready', () => {
 	});
 
 	ipcMain.on('appointment:done', (event, id) => {
-		console.log('Appointment done here');
+		allAppointments.forEach(appointment => {
+			if (appointment.id === id) {
+				appointment.done = true;
+			}
+		});
+
+		sendTodayAppointments();
 	});
 });
 

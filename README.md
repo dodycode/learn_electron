@@ -1,5 +1,5 @@
 # Task Six
-Finished logic for showing today appointments
+Finished logic for done appointments
 
 ### Installation
 
