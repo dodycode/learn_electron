@@ -34,6 +34,8 @@ app.on('ready', () => {
 		allAppointments.push(appointment);
 		console.log('(index.js) Current Appointments: ',allAppointments);
 
+		sendTodayAppointments();
+
 		createWindow.close();
 	});
 
@@ -42,13 +44,36 @@ app.on('ready', () => {
 	});
 
 	ipcMain.on('appointment:request:today', event => {
-		console.log('Appointment Request Today Here');
+		sendTodayAppointments();
 	});
 
 	ipcMain.on('appointment:done', (event, id) => {
 		console.log('Appointment done here');
 	});
 });
+
+const formatedDateNow = () => {
+	var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+const sendTodayAppointments = () => {
+	const today = formatedDateNow();
+	const filtered = allAppointments.filter(
+		appointment => appointment.date === today
+	);
+
+	mainWindow.webContents.send('appointment:response:today', filtered);
+}
 
 const createWindowCreator = () => {
 	createWindow = new BrowserWindow({

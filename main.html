@@ -57,8 +57,14 @@
 		const {ipcRenderer} = electron;
 		ipcRenderer.send('appointment:request:today');
 
-		ipcRenderer.on('appointment:request:today', (event, appointments) => {
+		ipcRenderer.on('appointment:response:today', (event, appointments) => {
 			const listDiv = document.getElementById('list');
+
+			//delete childs
+			while(listDiv.firstChild){
+				listDiv.removeChild(listDiv.firstChild);
+			}
+
 			appointments.forEach(appointment => {
 				let appointmentContainer = document.createElement('div');
 				appointmentContainer.classList.add('appointment');

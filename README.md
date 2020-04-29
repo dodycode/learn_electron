@@ -1,8 +1,6 @@
 # Task Six
-Adding uuid library for generate ID in data.
+Finished logic for showing today appointments
 
-
-![Main Window](https://i.imgur.com/CmqPsxh.jpg)
 ### Installation
 
 This project requires [Node.js](https://nodejs.org/) v10+ to run.
