@@ -1,5 +1,6 @@
 const uuid = require('uuid-js');
 const electron = require('electron');
+const fs = require('fs');
 
 const {
 	app,
@@ -11,6 +12,14 @@ const {
 let mainWindow, createWindow, listWindow;
 let allAppointments = [];
 
+//read db.json
+fs.readFile('db.json', (err, jsonAppointments) => {
+	if (!err) {
+		const currAppointments = JSON.parse(jsonAppointments);
+		allAppointments = currAppointments;
+	}
+})
+
 app.on('ready', () => {
 	mainWindow = new BrowserWindow({
 		webPreferences: {
@@ -21,6 +30,11 @@ app.on('ready', () => {
 
 	mainWindow.loadURL(`file://${__dirname}/main.html`);
 	mainWindow.on('closed', () => {
+
+		//save data to json
+		const jsonAppointments = JSON.stringify(allAppointments);
+		fs.writeFileSync('db.json', jsonAppointments);
+
 		app.quit();
 		mainWindow = null;
 	});

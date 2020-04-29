@@ -1,5 +1,5 @@
 # Task Six
-Finished logic for done appointments
+Added logic for handling JSON databases
 
 ### Installation
 
